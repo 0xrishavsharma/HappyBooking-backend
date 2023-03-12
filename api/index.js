@@ -25,12 +25,26 @@ mongoose.connection.on("connected", () => {
     console.log("MongoDB Connected :)")
 })
 
-//Middleware
+// Middleware
+// Are important because of their ability to reach "req" and "res" before sending anything to user.
+
+app.use(express.json()); // As we can't send JSON objects to an express server. This will helps us the do that.
 app.use("/api/auth", authRoute)
 app.use("/api/hotels", hotelsRoute)
 app.use("/api/rooms", roomsRoute)
 app.use("/api/users", usersRoute)
 
+// Error handling middleware
+app.use((err, req, res, next) => {
+    let errorStatus = err.status || 500;
+    let errorMessage = err.message || "Something went wrong!";
+    return res.status(errorStatus).json({
+        success: false,
+        status: errorStatus,
+        message: errorMessage,
+        stack: err.stack
+    });
+})
 
 // Creating an API
 app.get("/", (req, res) => {

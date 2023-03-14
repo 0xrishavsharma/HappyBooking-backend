@@ -5,6 +5,7 @@ import authRoute from "./routes/auth.js"
 import hotelsRoute from "./routes/hotels.js"
 import roomsRoute from "./routes/rooms.js"
 import usersRoute from "./routes/users.js"
+import cookieParser from "cookie-parser";
 
 const app = express();
 dotenv.config()
@@ -27,8 +28,9 @@ mongoose.connection.on("connected", () => {
 
 // Middleware
 // Are important because of their ability to reach "req" and "res" before sending anything to user.
-
+app.use(cookieParser())
 app.use(express.json()); // As we can't send JSON objects to an express server. This will helps us the do that.
+
 app.use("/api/auth", authRoute)
 app.use("/api/hotels", hotelsRoute)
 app.use("/api/rooms", roomsRoute)

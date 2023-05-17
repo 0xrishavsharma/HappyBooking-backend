@@ -28,6 +28,7 @@ mongoose.connection.on("connected", () => {
 
 // Middleware
 // Are important because of their ability to reach "req" and "res" before sending anything to user.
+// This was we can intercept the user request and send something else instead of the original request.
 app.use(cookieParser())
 app.use(express.json()); // As we can't send JSON objects to an express server. This will helps us the do that.
 

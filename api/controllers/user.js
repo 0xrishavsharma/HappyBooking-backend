@@ -1,43 +1,33 @@
-import Hotel from "../models/Hotel.js";
+import User from "../models/User.js";
 
-export const createHotel = async (req, res, next) => {
-    const newHotel = new Hotel(req.body);
+export const updateUser = async (req, res, next) => {
     try {
-        const savedHotel = await newHotel.save();
-        res.status(200).json(savedHotel);
+        const updatedUser = await User.findByIdAndUpdate(req.params.id, { $set: req.body });
+        res.status(200).json(updatedUser);
     } catch (err) {
         next(err);
     }
 }
-export const updateHotel = async (req, res, next) => {
+export const deleteUser = async (req, res, next) => {
     try {
-
-        const updatedHotel = await Hotel.findByIdAndUpdate(req.params.id, { $set: req.body });
-        res.status(200).json(updatedHotel);
+        await User.findByIdAndDelete(req.params.id);
+        res.status(200).json(`Deleted the user with id:${req.params.id}`);
     } catch (err) {
         next(err);
     }
 }
-export const deleteHotel = async (req, res, next) => {
+export const getUser = async (req, res, next) => {
     try {
-        await Hotel.findByIdAndDelete(req.params.id);
-        res.status(200).json(`Deleted the hotel with id:${req.params.id}`);
+        const user = await User.findById(req.params.id);
+        res.status(200).json(user);
     } catch (err) {
         next(err);
     }
 }
-export const getHotel = async (req, res, next) => {
+export const getAllUsers = async (req, res, next) => {
     try {
-        const hotel = await Hotel.findById(req.params.id);
-        res.status(200).json(hotel);
-    } catch (err) {
-        next(err);
-    }
-}
-export const getAllHotels = async (req, res, next) => {
-    try {
-        const hotels = await Hotel.find();
-        res.status(200).json(hotels);
+        const users = await User.find();
+        res.status(200).json(users);
     } catch (err) {
         next(err);
     }

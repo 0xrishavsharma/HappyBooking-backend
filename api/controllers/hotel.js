@@ -35,10 +35,12 @@ export const getHotel = async (req, res, next) => {
     }
 }
 export const getAllHotels = async (req, res, next) => {
+    next()
     try {
         const hotels = await Hotel.find();
         res.status(200).json(hotels);
     } catch (err) {
+        console.log(err);
         next(err);
     }
 }

@@ -44,14 +44,12 @@ export const getAllHotels = async (req, res, next) => {
 		const hotels = await Hotel.find();
 		res.status(200).json(hotels);
 	} catch (err) {
-		console.log(err);
 		next(err);
 	}
 };
 
 export const countByCity = async (req, res, next) => {
 	const cities = req.query.cities.split(","); //example query and result: /countByCity/Paris,London,Berlin => [Paris, London, Berlin]
-	console.log(cities);
 	try {
 		const list = await Promise.all(
 			cities.map((city) => Hotel.countDocuments({ city: city })) // countDocuments is a mongoose method and it returns a promise

@@ -37,6 +37,19 @@ export const updateRoom = async (req, res, next) => {
 	}
 };
 
+export const updateRoomAvailability = async (req, res, next) => {
+	try {
+		const room = await Room.findById(req.params.id);
+		console.log("Room", room);
+		// We are not using findById because we need to update the availability of a specific room
+		await Room.updateOne({ "roomNumbers._id": req.params.id }, {
+			$push: { "roomNumbers.$.unavailableDates": req.body.date } // $ is the positional operator that identifies the correct element in the array.
+		});
+	} catch (err) {
+		next(err);
+	}
+};
+
 export const deleteRoom = async (req, res, next) => {
 	const hotelId = req.params.hotelId;
 
